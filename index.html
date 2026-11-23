@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#090b10" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Duet Prompter" />
+  <title>Duet Lyrics Prompter</title>
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" href="./icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div id="app" class="app-shell">
+    <!-- Top Header -->
+    <header class="top-bar" id="topBar">
+      <div class="top-left">
+        <div class="song-tabs" id="songTabs" role="tablist" aria-label="곡 목록"></div>
+        <button class="icon-btn subtle" id="btnEditSong" title="곡 및 가사 편집">
+          <span>✎ 편집</span>
+        </button>
+      </div>
+
+      <div class="top-center" id="partLegend" aria-label="파트 색상 안내"></div>
+
+      <div class="top-right">
+        <div class="btn-group" aria-label="글자 크기">
+          <button class="icon-btn" id="btnFontDown" title="글자 작게">A-</button>
+          <button class="icon-btn" id="btnFontUp" title="글자 크게">A+</button>
+        </div>
+        <button class="icon-btn accent-sync" id="btnSyncMode" title="재생하면서 터치로 싱크 맞추기">
+          ⏱ 싱크 맞추기
+        </button>
+        <button class="icon-btn" id="btnToggleVideo" title="유튜브 플레이어 보이기/숨기기">
+          ▶ 영상
+        </button>
+        <button class="icon-btn" id="btnFullscreen" title="전체화면 전환">
+          ⛶
+        </button>
+      </div>
+    </header>
+
+    <!-- Song Meta & Section Quick-Jump Bar -->
+    <div class="sub-bar">
+      <div class="song-heading">
+        <h1 id="songTitle">Night of Silence</h1>
+        <span id="songSubtitle" class="song-subtitle"></span>
+      </div>
+      <div class="section-pills" id="sectionPills" aria-label="구간 빠른 이동"></div>
+    </div>
+
+    <!-- Collapsible YouTube Player Overlay -->
+    <aside class="yt-drawer hidden" id="ytDrawer" aria-label="유튜브 반주 플레이어">
+      <div class="yt-drawer-header">
+        <span class="yt-drawer-title">유튜브 반주</span>
+        <div class="yt-drawer-actions">
+          <a id="ytExternalLink" href="#" target="_blank" rel="noopener" class="yt-link">유튜브에서 열기 ↗</a>
+          <button class="icon-btn small" id="btnCloseVideo" title="접기">✕</button>
+        </div>
+      </div>
+      <div class="yt-player-frame">
+        <div id="ytPlayerContainer"></div>
+      </div>
+      <p class="yt-hint">태블릿 브라우저 정책상 첫 재생은 영상 또는 아래 재생 버튼을 한 번 눌러야 할 수 있습니다.</p>
+    </aside>
+
+    <!-- Tap-to-Sync Banner (only visible in Sync Recording Mode) -->
+    <section class="sync-banner hidden" id="syncBanner" aria-label="싱크 맞추기 모드">
+      <div class="sync-banner-info">
+        <div class="sync-badge">● 싱크 기록 중</div>
+        <div class="sync-next-preview">
+          다음 기록할 줄: <strong id="syncTargetLine">-</strong>
+        </div>
+      </div>
+      <div class="sync-banner-actions">
+        <button class="sync-tap-btn" id="btnSyncTap">
+          지금 이 줄 시작! <span class="kbd-hint">(Space / 터치)</span>
+        </button>
+        <button class="icon-btn" id="btnSyncUndo" title="직전 줄 되돌리기">↩ 되돌리기</button>
+        <button class="icon-btn primary" id="btnSyncDone">✓ 저장 완료</button>
+        <button class="icon-btn" id="btnSyncCancel">취소</button>
+      </div>
+    </section>
+
+    <!-- Main Prompter Stage -->
+    <main class="stage" id="stage" aria-live="polite">
+      <div class="stage-spacer"></div>
+      <div class="lyrics-list" id="lyricsList"></div>
+      <div class="stage-spacer"></div>
+    </main>
+
+    <!-- Floating Live Status Toast -->
+    <div class="toast hidden" id="toast" role="status"></div>
+
+    <!-- Bottom Transport & Sync Control Dock -->
+    <footer class="control-dock" id="controlDock">
+      <div class="timeline-row">
+        <div class="mode-switch" role="group" aria-label="반주 모드">
+          <button class="mode-btn active" id="modeYoutube" data-mode="youtube">
+            🎵 유튜브 반주
+          </button>
+          <button class="mode-btn" id="modeTimer" data-mode="timer">
+            ⏱ 별도 반주 (타이머)
+          </button>
+        </div>
+
+        <div class="scrubber-wrap">
+          <span class="time-label" id="timeCurrent">0:00</span>
+          <input
+            type="range"
+            id="timeScrubber"
+            class="time-scrubber"
+            min="0"
+            max="240"
+            step="0.1"
+            value="0"
+            aria-label="재생 위치"
+          />
+          <span class="time-label" id="timeTotal">4:00</span>
+        </div>
+
+        <button class="icon-btn small" id="btnWakeLock" title="화면 꺼짐 방지 상태">
+          ☀ 화면유지
+        </button>
+      </div>
+
+      <div class="transport-row">
+        <div class="transport-group">
+          <button class="ctrl-btn" id="btnRestart" title="처음으로 (R)">⏮</button>
+          <button class="ctrl-btn nudge" data-nudge="-2" title="2초 뒤로">-2s</button>
+          <button class="ctrl-btn nudge" data-nudge="-0.5" title="0.5초 뒤로">-0.5s</button>
+        </div>
+
+        <div class="transport-group primary-group">
+          <button class="ctrl-btn step" id="btnPrevLine" title="이전 줄 (← / PageUp)">◀ 이전</button>
+          <button class="ctrl-btn play" id="btnPlayPause" title="재생 / 일시정지 (Space)">
+            ▶ 재생
+          </button>
+          <button class="ctrl-btn step" id="btnNextLine" title="다음 줄 (→ / PageDown)">다음 ▶</button>
+        </div>
+
+        <div class="transport-group">
+          <button class="ctrl-btn nudge" data-nudge="0.5" title="0.5초 앞으로">+0.5s</button>
+          <button class="ctrl-btn nudge" data-nudge="2" title="2초 앞으로">+2s</button>
+          <button class="ctrl-btn" id="btnToggleDockHint" title="단축키/사용법">?</button>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Song & Lyrics Editor Modal -->
+  <div class="modal-backdrop hidden" id="editorModal" role="dialog" aria-modal="true" aria-labelledby="editorTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="editorTitle">곡 및 가사 편집</h2>
+        <div class="modal-header-actions">
+          <button class="icon-btn" id="btnNewSong">+ 새 곡 추가</button>
+          <button class="icon-btn" id="btnExportJson" title="현재 곡 JSON 복사">JSON 복사</button>
+          <button class="icon-btn" id="btnResetSongs" title="기본 곡 데이터로 초기화">초기화</button>
+          <button class="icon-btn" id="btnCloseEditor">✕</button>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-grid">
+          <label class="field">
+            <span>곡 제목</span>
+            <input type="text" id="edTitle" placeholder="예: Night of Silence" />
+          </label>
+          <label class="field">
+            <span>부제 / 아티스트</span>
+            <input type="text" id="edSubtitle" placeholder="예: Daniel Kantor · Silent Night 듀엣" />
+          </label>
+          <label class="field">
+            <span>유튜브 URL 또는 영상 ID</span>
+            <input type="text" id="edYoutube" placeholder="https://www.youtube.com/watch?v=9mahJfv6dN4" />
+          </label>
+          <label class="field">
+            <span>전체 길이 (초)</span>
+            <input type="number" id="edDuration" min="30" max="1200" step="1" />
+          </label>
+          <label class="field">
+            <span>Part A 이름 (노란색 · 왼쪽)</span>
+            <input type="text" id="edPartA" placeholder="Part 1 (Night of Silence)" />
+          </label>
+          <label class="field">
+            <span>Part B 이름 (하늘색 · 오른쪽)</span>
+            <input type="text" id="edPartB" placeholder="Part 2 (Silent Night)" />
+          </label>
+        </div>
+
+        <div class="editor-lines-header">
+          <h3>가사 / 타임스탬프 목록</h3>
+          <div class="editor-lines-actions">
+            <button class="icon-btn small" id="btnAddSoloLine">+ 일반/솔로 줄</button>
+            <button class="icon-btn small" id="btnAddSplitLine">+ 좌우 스플릿(동시가창)</button>
+            <button class="icon-btn small" id="btnAddCueLine">+ 전주/간주 큐</button>
+          </div>
+        </div>
+
+        <div class="editor-lines" id="editorLines"></div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="icon-btn danger" id="btnDeleteSong">이 곡 삭제</button>
+        <div class="modal-footer-right">
+          <button class="icon-btn" id="btnCancelEditor">취소</button>
+          <button class="icon-btn primary" id="btnSaveEditor">저장하기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Help / Shortcuts Modal -->
+  <div class="modal-backdrop hidden" id="helpModal" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+    <div class="modal-card small-modal">
+      <div class="modal-header">
+        <h2 id="helpTitle">태블릿 무대 사용 팁 & 단축키</h2>
+        <button class="icon-btn" id="btnCloseHelp">✕</button>
+      </div>
+      <div class="modal-body help-body">
+        <ul>
+          <li><strong>가사 터치 이동:</strong> 노래 중 반주와 어긋나면 <strong>원하는 가사 줄을 바로 터치</strong>하세요. 즉시 그 줄로 싱크가 점프합니다.</li>
+          <li><strong>별도 기기 반주 모드:</strong> 하단에서 <code>⏱ 별도 반주 (타이머)</code>를 선택하면 태블릿 소리 없이 가사만 타이머로 흐릅니다. <code>-0.5s / +0.5s / -2s / +2s</code> 버튼으로 실시간 미세 조정이 가능합니다.</li>
+          <li><strong>정확한 싱크 맞추기:</strong> 상단 <code>⏱ 싱크 맞추기</code>를 누른 뒤 반주를 틀고 각 줄이 시작할 때마다 화면(또는 스페이스바)을 탭하면 타임스탬프가 자동 저장됩니다.</li>
+          <li><strong>블루투스 페달 / 키보드:</strong>
+            <ul>
+              <li><code>Space</code> : 재생 / 일시정지 (싱크 모드에서는 현재 줄 타임스탬프 기록)</li>
+              <li><code>← / →</code> 또는 <code>PageUp / PageDown</code> : 이전 줄 / 다음 줄로 즉시 이동</li>
+              <li><code>[ / ]</code> : -0.5초 / +0.5초 싱크 미세 조정</li>
+              <li><code>R</code> : 처음으로 이동 · <code>F</code> : 전체화면</li>
+            </ul>
+          </li>
+          <li><strong>태블릿 앱처럼 설치:</strong> iPad Safari(공유 → 홈 화면에 추가) 또는 갤럭시 탭 Chrome(메뉴 → 앱 설치)으로 전체화면 PWA로 실행할 수 있습니다.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
