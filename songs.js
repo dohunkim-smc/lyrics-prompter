@@ -29,7 +29,7 @@ export const DEFAULT_SONGS = [
         text: '전주 (Intro · 4마디) — Bekah 준비',
         sub: '0:01.2 피아노 시작 → 0:09.2 첫 소절 진입'
       },
-      // ==================== VERSE 1 — Bekah (Downbeat 0:09.2, -0.3s eye-lead) ====================
+      // ==================== VERSE 1 — Bekah (24 bars: +0, +8, +16, +24, +32, +42s) ====================
       {
         type: 'solo',
         section: '1절 (Bekah)',
@@ -41,48 +41,42 @@ export const DEFAULT_SONGS = [
       {
         type: 'solo',
         part: 'A',
-        time: 12.9,
+        time: 16.9,
         text: 'We tremble in shadows this cold endless night',
         sub: ''
       },
       {
         type: 'solo',
         part: 'A',
-        time: 16.9,
+        time: 24.9,
         text: 'Frozen in the snow lie roses sleeping',
         sub: ''
       },
       {
         type: 'solo',
         part: 'A',
-        time: 24.9,
+        time: 32.9,
         text: 'Flowers that will echo the sunrise',
         sub: ''
       },
       {
         type: 'solo',
         part: 'A',
-        time: 32.9,
+        time: 40.9,
         text: 'Fire of hope is our only warmth',
         sub: ''
       },
       {
         type: 'solo',
         part: 'A',
-        time: 40.9,
+        time: 50.9,
         text: 'Weary, its flame will be dying soon',
         sub: ''
       },
       {
         type: 'cue',
-        time: 50.9,
-        text: '간주 — 피아노 마무리',
-        sub: ''
-      },
-      {
-        type: 'cue',
         time: 56.9,
-        text: '전주 4마디 — Don 준비 (1:05 진입)',
+        text: '간주 (4마디) — Don 준비 (1:05 진입)',
         sub: ''
       },
       // ==================== VERSE 2 — Don (Downbeat 1:05.2, +56.0s exact) ====================
@@ -97,48 +91,42 @@ export const DEFAULT_SONGS = [
       {
         type: 'solo',
         part: 'B',
-        time: 68.9,
+        time: 72.9,
         text: 'On wind you enfold us, you speak of the light',
         sub: ''
       },
       {
         type: 'solo',
         part: 'B',
-        time: 72.9,
+        time: 80.9,
         text: 'Gentle on the ear you whisper softly',
         sub: ''
       },
       {
         type: 'solo',
         part: 'B',
-        time: 80.9,
+        time: 88.9,
         text: 'Rumors of a dawn so embracing',
         sub: ''
       },
       {
         type: 'solo',
         part: 'B',
-        time: 88.9,
+        time: 96.9,
         text: 'Breathless love awaits darkened souls',
         sub: ''
       },
       {
         type: 'solo',
         part: 'B',
-        time: 96.9,
+        time: 106.9,
         text: 'Soon will we know of the morning',
         sub: ''
       },
       {
         type: 'cue',
-        time: 106.9,
-        text: '간주 — 피아노 마무리',
-        sub: ''
-      },
-      {
-        type: 'cue',
         time: 112.9,
-        text: '전주 4마디 — 3절 스플릿 준비 (2:01 진입)',
+        text: '간주 (4마디) — 3절 스플릿 준비 (2:01 진입)',
         sub: ''
       },
       // ==================== VERSE 3 — Split Duet (Downbeat 2:01.2, +112.0s exact) ====================
@@ -151,19 +139,7 @@ export const DEFAULT_SONGS = [
           sub: ''
         },
         right: {
-          text: 'Silent night,',
-          sub: ''
-        }
-      },
-      {
-        type: 'split',
-        time: 124.9,
-        left: {
-          text: 'Your light that guides shepherds and kings from afar',
-          sub: ''
-        },
-        right: {
-          text: 'Holy night,',
+          text: 'Silent night, holy night',
           sub: ''
         }
       },
@@ -171,7 +147,7 @@ export const DEFAULT_SONGS = [
         type: 'split',
         time: 128.9,
         left: {
-          text: 'Shimmer in the sky so empty, lonely',
+          text: 'Your light that guides shepherds and kings from afar',
           sub: ''
         },
         right: {
@@ -183,7 +159,7 @@ export const DEFAULT_SONGS = [
         type: 'split',
         time: 136.9,
         left: {
-          text: 'Rising in the warmth of your Son\'s love',
+          text: 'Shimmer in the sky so empty, lonely',
           sub: ''
         },
         right: {
@@ -195,7 +171,7 @@ export const DEFAULT_SONGS = [
         type: 'split',
         time: 144.9,
         left: {
-          text: 'Star unknowing of night and day',
+          text: 'Rising in the warmth of your Son\'s love',
           sub: ''
         },
         right: {
@@ -207,7 +183,7 @@ export const DEFAULT_SONGS = [
         type: 'split',
         time: 152.9,
         left: {
-          text: 'Spirit we wait for your loving Son',
+          text: 'Star unknowing of night and day',
           sub: ''
         },
         right: {
@@ -219,8 +195,8 @@ export const DEFAULT_SONGS = [
         type: 'split',
         time: 162.9,
         left: {
-          text: '—',
-          sub: '(여운 · 호흡)'
+          text: 'Spirit we wait for your loving Son',
+          sub: ''
         },
         right: {
           text: 'Sleep in heavenly peace.',
@@ -230,7 +206,7 @@ export const DEFAULT_SONGS = [
       {
         type: 'cue',
         time: 168.9,
-        text: '전주 4마디 — 4절 스플릿 준비 (2:57 진입)',
+        text: '간주 (4마디) — 4절 스플릿 준비 (2:57 진입)',
         sub: ''
       },
       // ==================== VERSE 4 — Split Duet (Downbeat 2:57.2, +168.0s exact) ====================
@@ -243,19 +219,7 @@ export const DEFAULT_SONGS = [
           sub: ''
         },
         right: {
-          text: 'Silent night,',
-          sub: ''
-        }
-      },
-      {
-        type: 'split',
-        time: 180.9,
-        left: {
-          text: 'Your light that guides shepherds and kings from afar',
-          sub: ''
-        },
-        right: {
-          text: 'Holy night,',
+          text: 'Silent night, holy night',
           sub: ''
         }
       },
@@ -263,7 +227,7 @@ export const DEFAULT_SONGS = [
         type: 'split',
         time: 184.9,
         left: {
-          text: 'Shimmer in the sky so empty, lonely',
+          text: 'Your light that guides shepherds and kings from afar',
           sub: ''
         },
         right: {
@@ -275,7 +239,7 @@ export const DEFAULT_SONGS = [
         type: 'split',
         time: 192.9,
         left: {
-          text: 'Rising in the warmth of your Son\'s love',
+          text: 'Shimmer in the sky so empty, lonely',
           sub: ''
         },
         right: {
@@ -287,7 +251,7 @@ export const DEFAULT_SONGS = [
         type: 'split',
         time: 200.9,
         left: {
-          text: 'Star unknowing of night and day',
+          text: 'Rising in the warmth of your Son\'s love',
           sub: ''
         },
         right: {
@@ -299,7 +263,7 @@ export const DEFAULT_SONGS = [
         type: 'split',
         time: 208.9,
         left: {
-          text: 'Spirit we wait for your loving Son',
+          text: 'Star unknowing of night and day',
           sub: ''
         },
         right: {
@@ -311,8 +275,8 @@ export const DEFAULT_SONGS = [
         type: 'split',
         time: 218.9,
         left: {
-          text: '—',
-          sub: '(여운 · 호흡)'
+          text: 'Spirit we wait for your loving Son',
+          sub: ''
         },
         right: {
           text: 'Christ the Savior is born.',
@@ -344,29 +308,29 @@ export const DEFAULT_SONGS = [
         type: 'cue',
         section: '전주',
         time: 0,
-        text: '전주 (Intro) — 0:18.5 첫 소절 진입',
-        sub: '0:14부터 4박 카운트다운'
+        text: '전주 (Intro) — 0:16 첫 소절 진입',
+        sub: '0:12부터 4박 카운트다운'
       },
-      // ==================== VERSE 1 (0:18.2 ~ 1:17.0) ====================
+      // ==================== VERSE 1 (0:15.7 ~ 1:16.5) ====================
       {
         type: 'solo',
         section: '1절',
         part: 'both',
-        time: 18.2,
+        time: 15.7,
         text: 'O holy night, the stars are brightly shining,',
         sub: ''
       },
       {
         type: 'solo',
         part: 'both',
-        time: 26.8,
+        time: 25.7,
         text: 'It is the night of our dear Savior\'s birth.',
         sub: ''
       },
       {
         type: 'solo',
         part: 'both',
-        time: 36.2,
+        time: 36.5,
         text: 'Long lay the world in sin and error pining,',
         sub: ''
       },
@@ -380,7 +344,7 @@ export const DEFAULT_SONGS = [
       {
         type: 'solo',
         part: 'both',
-        time: 56.8,
+        time: 57.2,
         text: 'A thrill of hope, the weary world rejoices,',
         sub: ''
       },
@@ -391,26 +355,26 @@ export const DEFAULT_SONGS = [
         text: 'For yonder breaks a new and glorious morn!',
         sub: ''
       },
-      // ==================== CHORUS 1 (1:17.2 ~ 2:11.5) ====================
+      // ==================== CHORUS 1 (1:16.5 ~ 2:11.5) ====================
       {
         type: 'solo',
         section: '후렴 1',
         part: 'both',
-        time: 77.2,
+        time: 76.5,
         text: 'Fall on your knees!',
         sub: ''
       },
       {
         type: 'solo',
         part: 'both',
-        time: 84.8,
+        time: 84.5,
         text: 'O hear the angel voices!',
         sub: ''
       },
       {
         type: 'solo',
         part: 'both',
-        time: 94.2,
+        time: 93.5,
         text: 'O night divine!',
         sub: ''
       },
@@ -424,82 +388,82 @@ export const DEFAULT_SONGS = [
       {
         type: 'solo',
         part: 'both',
-        time: 113.5,
+        time: 111.5,
         text: 'O night divine,',
         sub: ''
       },
       {
         type: 'solo',
         part: 'both',
-        time: 122.0,
+        time: 120.5,
         text: 'O night, O night divine!',
         sub: ''
       },
-      // ==================== INTERLUDE (2:11.5 ~ 2:28.5) ====================
+      // ==================== INTERLUDE (2:11.5 ~ 2:27.5) ====================
       {
         type: 'cue',
         section: '간주',
         time: 131.5,
-        text: '간주 (4 Bar Break) — 2:29 진입 준비',
+        text: '간주 (4 Bar Break) — 2:28 진입 준비',
         sub: '2:24부터 4박 카운트다운'
       },
-      // ==================== VERSE 2 (2:28.5 ~ 3:08.0) ====================
+      // ==================== VERSE 2 (2:27.5 ~ 3:07.5) ====================
       {
         type: 'solo',
         section: '2절',
         part: 'both',
-        time: 148.5,
+        time: 147.5,
         text: 'Chains shall He break, for the slave is our brother,',
         sub: ''
       },
       {
         type: 'solo',
         part: 'both',
-        time: 159.2,
+        time: 158.5,
         text: 'And in His name all oppression shall cease.',
         sub: ''
       },
       {
         type: 'solo',
         part: 'both',
-        time: 169.5,
+        time: 168.5,
         text: 'Sweet hymns of joy in grateful chorus raise we,',
         sub: ''
       },
       {
         type: 'solo',
         part: 'both',
-        time: 178.5,
+        time: 177.5,
         text: 'Let all within us praise His holy name.',
         sub: ''
       },
-      // ==================== CLIMAX (3:08.0 ~ 4:36.5) ====================
+      // ==================== CLIMAX (3:07.5 ~ 4:35.0) ====================
       {
         type: 'solo',
         section: '클라이맥스',
         part: 'both',
-        time: 188.0,
+        time: 187.5,
         text: 'Christ is the Lord!',
         sub: ''
       },
       {
         type: 'solo',
         part: 'both',
-        time: 196.5,
+        time: 195.5,
         text: 'That ever, ever praise we!',
         sub: ''
       },
       {
         type: 'solo',
         part: 'both',
-        time: 206.5,
+        time: 205.5,
         text: 'Noel, Noel,',
         sub: ''
       },
       {
         type: 'solo',
         part: 'both',
-        time: 214.2,
+        time: 214.5,
         text: 'O night, O night divine!',
         sub: ''
       },
@@ -514,28 +478,28 @@ export const DEFAULT_SONGS = [
       {
         type: 'solo',
         part: 'both',
-        time: 232.2,
+        time: 232.5,
         text: 'O night, O night divine!',
         sub: ''
       },
       {
         type: 'solo',
         part: 'both',
-        time: 244.2,
+        time: 242.5,
         text: 'Noel, Noel,',
         sub: ''
       },
       {
         type: 'solo',
         part: 'both',
-        time: 258.0,
+        time: 258.5,
         text: 'O night, O night divine!',
         sub: ''
       },
       {
         type: 'cue',
         section: '후주',
-        time: 276.5,
+        time: 275.0,
         text: '후주 (Outro) — 오케스트라 마무리',
         sub: ''
       }

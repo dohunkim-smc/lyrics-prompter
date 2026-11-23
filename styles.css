@@ -326,6 +326,14 @@ html, body {
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
   z-index: 35;
   overflow: hidden;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.yt-drawer.collapsed {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px) scale(0.95);
+  z-index: -1;
 }
 
 .yt-drawer-header {
@@ -531,9 +539,9 @@ html, body {
   cursor: pointer;
   transform-origin: center center;
   transition:
-    transform 0.52s cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 0.45s ease,
-    filter 0.45s ease;
+    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.28s ease,
+    filter 0.28s ease;
   opacity: 0.18;
   transform: scale(0.76);
   will-change: transform, opacity;

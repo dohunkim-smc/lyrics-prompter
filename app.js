@@ -1,6 +1,6 @@
 import { DEFAULT_SONGS } from './songs.js';
 
-const STORAGE_KEY = 'duet_prompter_songs_v5';
+const STORAGE_KEY = 'duet_prompter_songs_v6';
 const PREFS_KEY = 'duet_prompter_prefs_v1';
 
 // ==================== STATE ====================
@@ -15,10 +15,15 @@ const state = {
   lyricScale: 1,
   videoVisible: false,
 
-  // YouTube player state
+  // YouTube player state (with 60fps smooth clock interpolation)
   ytApiReady: false,
+  ytReady: false,
   ytPlayer: null,
   ytLoadedVideoId: null,
+  ytPlayerState: -1,
+  ytLastReportedTime: -1,
+  ytAnchorTime: 0,
+  ytAnchorPerf: 0,
 
   // Sync recording state
   syncMode: false,
@@ -552,15 +557,22 @@ function playPlayback() {
   requestWakeLock();
 
   if (state.mode === 'youtube' && song.youtubeId) {
-    if (!state.ytPlayer || !state.ytApiReady) {
+    if (!state.ytPlayer || !state.ytReady) {
       loadYoutubeVideo(song.youtubeId, state.currentTime, true);
       setVideoDrawerVisible(true);
       showToast('유튜브 반주를 불러오는 중...');
       return;
     }
     try {
-      state.ytPlayer.seekTo(state.currentTime, true);
+      const ytNow = state.ytPlayer.getCurrentTime?.() ?? 0;
+      if (Math.abs(ytNow - state.currentTime) > 0.6) {
+        state.ytPlayer.seekTo(state.currentTime, true);
+      }
+      state.ytAnchorTime = state.currentTime;
+      state.ytAnchorPerf = performance.now();
+      state.ytLastReportedTime = -1;
       state.ytPlayer.playVideo();
+      // Do NOT force timer ahead while YouTube buffers; onStateChange(PLAYING) locks the clock
       state.isPlaying = true;
     } catch (e) {
       showToast('유튜브 재생을 시작하려면 영상 영역을 한 번 탭해 주세요.');
@@ -576,7 +588,7 @@ function playPlayback() {
 
 function pausePlayback() {
   state.isPlaying = false;
-  if (state.ytPlayer && typeof state.ytPlayer.pauseVideo === 'function') {
+  if (state.ytPlayer && state.ytReady && typeof state.ytPlayer.pauseVideo === 'function') {
     try {
       state.ytPlayer.pauseVideo();
     } catch {
@@ -599,8 +611,11 @@ function seekTo(seconds, showFeedback = false) {
   const dur = getSongDuration(song);
   state.currentTime = Math.min(dur, Math.max(0, seconds));
   state.lastFrameTs = performance.now();
+  state.ytAnchorTime = state.currentTime;
+  state.ytAnchorPerf = performance.now();
+  state.ytLastReportedTime = -1;
 
-  if (state.mode === 'youtube' && state.ytPlayer && typeof state.ytPlayer.seekTo === 'function') {
+  if (state.mode === 'youtube' && state.ytPlayer && state.ytReady && typeof state.ytPlayer.seekTo === 'function') {
     try {
       state.ytPlayer.seekTo(state.currentTime, true);
     } catch {
@@ -646,16 +661,34 @@ function tick(now) {
   const dur = getSongDuration(song);
 
   if (state.isPlaying) {
-    if (state.mode === 'youtube' && state.ytPlayer && typeof state.ytPlayer.getCurrentTime === 'function') {
-      const ytTime = state.ytPlayer.getCurrentTime();
-      if (Number.isFinite(ytTime)) {
-        state.currentTime = ytTime;
+    if (state.mode === 'youtube') {
+      const YTState = window.YT?.PlayerState;
+      const actuallyPlaying =
+        state.ytReady &&
+        state.ytPlayer &&
+        typeof state.ytPlayer.getCurrentTime === 'function' &&
+        YTState &&
+        state.ytPlayerState === YTState.PLAYING;
+
+      if (actuallyPlaying) {
+        const ytTime = state.ytPlayer.getCurrentTime();
+        if (Number.isFinite(ytTime)) {
+          // Anchor smooth 60fps clock whenever YouTube sends a fresh time sample
+          if (Math.abs(ytTime - state.ytLastReportedTime) > 0.001) {
+            state.ytLastReportedTime = ytTime;
+            state.ytAnchorTime = ytTime;
+            state.ytAnchorPerf = now;
+          }
+          const elapsed = Math.min(0.35, Math.max(0, (now - state.ytAnchorPerf) / 1000));
+          state.currentTime = state.ytAnchorTime + elapsed;
+        }
+        const ytDur = state.ytPlayer.getDuration?.();
+        if (Number.isFinite(ytDur) && ytDur > 10 && Math.abs(ytDur - Number(els.timeScrubber.max)) > 2) {
+          els.timeScrubber.max = String(Math.ceil(ytDur));
+          els.timeTotal.textContent = formatTime(ytDur);
+        }
       }
-      const ytDur = state.ytPlayer.getDuration?.();
-      if (Number.isFinite(ytDur) && ytDur > 10 && Math.abs(ytDur - Number(els.timeScrubber.max)) > 2) {
-        els.timeScrubber.max = String(Math.ceil(ytDur));
-        els.timeTotal.textContent = formatTime(ytDur);
-      }
+      // Note: while YouTube is buffering/cued, do NOT run fallback timer ahead of audio!
     } else {
       const dt = (now - state.lastFrameTs) / 1000;
       state.lastFrameTs = now;
@@ -704,48 +737,67 @@ async function loadYoutubeVideo(videoId, startSeconds = 0, autoPlay = false) {
   if (!videoId) return;
   await ensureYoutubeApi();
 
-  if (state.ytPlayer && typeof state.ytPlayer.loadVideoById === 'function') {
+  if (state.ytPlayer && state.ytReady && typeof state.ytPlayer.loadVideoById === 'function') {
+    state.ytLastReportedTime = -1;
+    state.ytAnchorTime = startSeconds;
+    state.ytAnchorPerf = performance.now();
     if (state.ytLoadedVideoId !== videoId) {
       state.ytLoadedVideoId = videoId;
+      state.ytPlayerState = -1;
       if (autoPlay) {
         state.ytPlayer.loadVideoById({ videoId, startSeconds });
       } else {
         state.ytPlayer.cueVideoById({ videoId, startSeconds });
       }
     } else {
-      state.ytPlayer.seekTo(startSeconds, true);
+      if (Math.abs((state.ytPlayer.getCurrentTime?.() ?? 0) - startSeconds) > 0.6) {
+        state.ytPlayer.seekTo(startSeconds, true);
+      }
       if (autoPlay) state.ytPlayer.playVideo();
     }
     return;
   }
 
   state.ytLoadedVideoId = videoId;
+  state.ytReady = false;
+  state.ytPlayerState = -1;
   state.ytPlayer = new window.YT.Player('ytPlayerContainer', {
     videoId,
     playerVars: {
       playsinline: 1,
       rel: 0,
       modestbranding: 1,
+      origin: window.location.origin,
       start: Math.floor(startSeconds)
     },
     events: {
       onReady: (e) => {
+        state.ytReady = true;
         const dur = e.target.getDuration?.();
         if (Number.isFinite(dur) && dur > 10) {
           els.timeScrubber.max = String(Math.ceil(dur));
           els.timeTotal.textContent = formatTime(dur);
         }
         if (autoPlay) {
-          e.target.seekTo(startSeconds, true);
+          if (startSeconds > 0.5) e.target.seekTo(startSeconds, true);
           e.target.playVideo();
         }
       },
       onStateChange: (e) => {
+        state.ytPlayerState = e.data;
         if (state.mode !== 'youtube') return;
         const YTState = window.YT.PlayerState;
         if (e.data === YTState.PLAYING) {
+          const ytNow = e.target.getCurrentTime?.();
+          if (Number.isFinite(ytNow)) {
+            state.currentTime = ytNow;
+            state.ytAnchorTime = ytNow;
+            state.ytLastReportedTime = ytNow;
+            state.ytAnchorPerf = performance.now();
+          }
           state.isPlaying = true;
           requestWakeLock();
+          updateActiveLine(false);
           updateTimelineUI();
         } else if (e.data === YTState.PAUSED || e.data === YTState.ENDED) {
           state.isPlaying = false;
@@ -758,7 +810,7 @@ async function loadYoutubeVideo(videoId, startSeconds = 0, autoPlay = false) {
 
 function setVideoDrawerVisible(visible) {
   state.videoVisible = visible;
-  els.ytDrawer.classList.toggle('hidden', !visible);
+  els.ytDrawer.classList.toggle('collapsed', !visible);
   els.btnToggleVideo.classList.toggle('primary', visible);
 }
 
