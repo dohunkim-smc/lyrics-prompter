@@ -1,4 +1,4 @@
-const CACHE_NAME = 'duet-prompter-v4';
+const CACHE_NAME = 'duet-prompter-v5';
 const ASSETS = [
   './',
   './index.html',

@@ -1,6 +1,6 @@
 import { DEFAULT_SONGS } from './songs.js';
 
-const STORAGE_KEY = 'duet_prompter_songs_v4';
+const STORAGE_KEY = 'duet_prompter_songs_v5';
 const PREFS_KEY = 'duet_prompter_prefs_v1';
 
 // ==================== STATE ====================

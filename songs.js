@@ -329,79 +329,514 @@ export const DEFAULT_SONGS = [
     ]
   },
   {
-    id: 'song-2',
-    title: '2번 곡 (준비 중)',
-    subtitle: '상단 [✎ 편집]에서 제목·유튜브 링크·가사를 입력하거나 채팅으로 알려주세요',
-    youtubeId: '',
-    duration: 180,
+    id: 'o-holy-night',
+    title: 'O Holy Night',
+    subtitle: 'Josh Groban (Karaoke 4:54 · 단독 가창 기준 정밀 싱크)',
+    youtubeId: 'tNoV4HJQ1ZM',
+    duration: 294,
     parts: {
-      A: 'Part A',
-      B: 'Part B',
-      both: '함께'
+      A: 'Bekah',
+      B: 'Don',
+      both: 'Vocal'
     },
     lines: [
       {
         type: 'cue',
         section: '전주',
         time: 0,
-        text: '두 번째 듀엣 곡을 추가해 주세요',
-        sub: '상단 [✎ 편집] 버튼에서 바로 수정할 수 있습니다'
+        text: '전주 (Intro) — 0:18.5 첫 소절 진입',
+        sub: '0:14부터 4박 카운트다운'
       },
+      // ==================== VERSE 1 (0:18.2 ~ 1:17.0) ====================
       {
         type: 'solo',
         section: '1절',
+        part: 'both',
+        time: 18.2,
+        text: 'O holy night, the stars are brightly shining,',
+        sub: ''
+      },
+      {
+        type: 'solo',
+        part: 'both',
+        time: 26.8,
+        text: 'It is the night of our dear Savior\'s birth.',
+        sub: ''
+      },
+      {
+        type: 'solo',
+        part: 'both',
+        time: 36.2,
+        text: 'Long lay the world in sin and error pining,',
+        sub: ''
+      },
+      {
+        type: 'solo',
+        part: 'both',
+        time: 45.2,
+        text: '\'Til He appeared and the soul felt its worth.',
+        sub: ''
+      },
+      {
+        type: 'solo',
+        part: 'both',
+        time: 56.8,
+        text: 'A thrill of hope, the weary world rejoices,',
+        sub: ''
+      },
+      {
+        type: 'solo',
+        part: 'both',
+        time: 66.2,
+        text: 'For yonder breaks a new and glorious morn!',
+        sub: ''
+      },
+      // ==================== CHORUS 1 (1:17.2 ~ 2:11.5) ====================
+      {
+        type: 'solo',
+        section: '후렴 1',
+        part: 'both',
+        time: 77.2,
+        text: 'Fall on your knees!',
+        sub: ''
+      },
+      {
+        type: 'solo',
+        part: 'both',
+        time: 84.8,
+        text: 'O hear the angel voices!',
+        sub: ''
+      },
+      {
+        type: 'solo',
+        part: 'both',
+        time: 94.2,
+        text: 'O night divine!',
+        sub: ''
+      },
+      {
+        type: 'solo',
+        part: 'both',
+        time: 102.5,
+        text: 'O night when Christ was born!',
+        sub: ''
+      },
+      {
+        type: 'solo',
+        part: 'both',
+        time: 113.5,
+        text: 'O night divine,',
+        sub: ''
+      },
+      {
+        type: 'solo',
+        part: 'both',
+        time: 122.0,
+        text: 'O night, O night divine!',
+        sub: ''
+      },
+      // ==================== INTERLUDE (2:11.5 ~ 2:28.5) ====================
+      {
+        type: 'cue',
+        section: '간주',
+        time: 131.5,
+        text: '간주 (4 Bar Break) — 2:29 진입 준비',
+        sub: '2:24부터 4박 카운트다운'
+      },
+      // ==================== VERSE 2 (2:28.5 ~ 3:08.0) ====================
+      {
+        type: 'solo',
+        section: '2절',
+        part: 'both',
+        time: 148.5,
+        text: 'Chains shall He break, for the slave is our brother,',
+        sub: ''
+      },
+      {
+        type: 'solo',
+        part: 'both',
+        time: 159.2,
+        text: 'And in His name all oppression shall cease.',
+        sub: ''
+      },
+      {
+        type: 'solo',
+        part: 'both',
+        time: 169.5,
+        text: 'Sweet hymns of joy in grateful chorus raise we,',
+        sub: ''
+      },
+      {
+        type: 'solo',
+        part: 'both',
+        time: 178.5,
+        text: 'Let all within us praise His holy name.',
+        sub: ''
+      },
+      // ==================== CLIMAX (3:08.0 ~ 4:36.5) ====================
+      {
+        type: 'solo',
+        section: '클라이맥스',
+        part: 'both',
+        time: 188.0,
+        text: 'Christ is the Lord!',
+        sub: ''
+      },
+      {
+        type: 'solo',
+        part: 'both',
+        time: 196.5,
+        text: 'That ever, ever praise we!',
+        sub: ''
+      },
+      {
+        type: 'solo',
+        part: 'both',
+        time: 206.5,
+        text: 'Noel, Noel,',
+        sub: ''
+      },
+      {
+        type: 'solo',
+        part: 'both',
+        time: 214.2,
+        text: 'O night, O night divine!',
+        sub: ''
+      },
+      {
+        type: 'solo',
+        section: '피날레',
+        part: 'both',
+        time: 224.5,
+        text: 'Noel, Noel,',
+        sub: ''
+      },
+      {
+        type: 'solo',
+        part: 'both',
+        time: 232.2,
+        text: 'O night, O night divine!',
+        sub: ''
+      },
+      {
+        type: 'solo',
+        part: 'both',
+        time: 244.2,
+        text: 'Noel, Noel,',
+        sub: ''
+      },
+      {
+        type: 'solo',
+        part: 'both',
+        time: 258.0,
+        text: 'O night, O night divine!',
+        sub: ''
+      },
+      {
+        type: 'cue',
+        section: '후주',
+        time: 276.5,
+        text: '후주 (Outro) — 오케스트라 마무리',
+        sub: ''
+      }
+    ]
+  },
+  {
+    id: 'the-prayer',
+    title: 'The Prayer',
+    subtitle: 'Céline Dion & Andrea Bocelli (Original Instrumental 4:30 · Bekah EN / Don IT)',
+    youtubeId: 'hJrnxepCysM',
+    duration: 270,
+    parts: {
+      A: 'Bekah (English)',
+      B: 'Don (Italian)',
+      both: '함께 (Bekah & Don)'
+    },
+    lines: [
+      {
+        type: 'cue',
+        section: '전주',
+        time: 0,
+        text: '전주 (Orchestra Intro) — Bekah 준비',
+        sub: '0:21 첫 소절 진입'
+      },
+      // ==================== VERSE 1 — Bekah Solo (0:21.2 ~ 1:03.5) ====================
+      {
+        type: 'solo',
+        section: '1절 (Bekah)',
         part: 'A',
-        time: 10,
-        text: 'Part A 가사 예시입니다',
-        sub: '노란색으로 표시됩니다'
+        time: 21.2,
+        text: 'I pray you\'ll be our eyes, and watch us where we go',
+        sub: ''
+      },
+      {
+        type: 'solo',
+        part: 'A',
+        time: 29.8,
+        text: 'And help us to be wise in times when we don\'t know',
+        sub: ''
+      },
+      {
+        type: 'solo',
+        part: 'A',
+        time: 37.2,
+        text: 'Let this be our prayer, when we lose our way',
+        sub: ''
+      },
+      {
+        type: 'solo',
+        part: 'A',
+        time: 49.5,
+        text: 'Lead us to a place, guide us with your grace',
+        sub: ''
+      },
+      {
+        type: 'solo',
+        part: 'A',
+        time: 56.8,
+        text: 'To a place where we\'ll be safe',
+        sub: ''
+      },
+      // ==================== VERSE 2 — Don (IT) & Bekah (EN) (1:03.5 ~ 1:59.0) ====================
+      {
+        type: 'split',
+        section: '2절 (듀엣)',
+        time: 63.5,
+        left: {
+          text: 'I pray we\'ll find your light',
+          sub: '(1:07 응답)'
+        },
+        right: {
+          text: 'La luce che tu hai',
+          sub: '(1:03.5 먼저)'
+        }
+      },
+      {
+        type: 'split',
+        time: 71.0,
+        left: {
+          text: 'And hold it in our hearts',
+          sub: '(1:15.5 응답)'
+        },
+        right: {
+          text: 'Nel cuore resterà',
+          sub: '(1:11 먼저)'
+        }
+      },
+      {
+        type: 'split',
+        time: 80.5,
+        left: {
+          text: 'When stars go out each night',
+          sub: '(1:24.5 응답)'
+        },
+        right: {
+          text: 'A ricordarci che',
+          sub: '(1:20.5 먼저)'
+        }
       },
       {
         type: 'solo',
         part: 'B',
-        time: 18,
-        text: 'Part B 가사 예시입니다',
-        sub: '하늘색으로 표시됩니다'
+        time: 88.5,
+        text: 'L\'eterna stella sei',
+        sub: ''
       },
       {
         type: 'split',
-        section: '동시가창',
-        time: 26,
+        time: 94.5,
         left: {
-          text: 'Part A 동시 가창 가사',
-          sub: '왼쪽 컬럼'
+          text: 'Let this be our prayer',
+          sub: ''
         },
         right: {
-          text: 'Part B 동시 가창 가사',
-          sub: '오른쪽 컬럼'
+          text: 'Nella mia preghiera',
+          sub: ''
+        }
+      },
+      {
+        type: 'split',
+        time: 100.8,
+        left: {
+          text: 'When shadows fill our day',
+          sub: ''
+        },
+        right: {
+          text: 'Quanta fede c\'è',
+          sub: ''
         }
       },
       {
         type: 'solo',
         part: 'both',
-        time: 36,
-        text: '함께 부르는 파트 가사 예시',
-        sub: '에메랄드 색으로 표시됩니다'
-      }
-    ]
-  },
-  {
-    id: 'song-3',
-    title: '3번 곡 (준비 중)',
-    subtitle: '상단 [✎ 편집]에서 제목·유튜브 링크·가사를 입력하거나 채팅으로 알려주세요',
-    youtubeId: '',
-    duration: 180,
-    parts: {
-      A: 'Part A',
-      B: 'Part B',
-      both: '함께'
-    },
-    lines: [
+        time: 106.8,
+        text: 'Lead us to a place, guide us with your grace',
+        sub: ''
+      },
+      {
+        type: 'solo',
+        part: 'both',
+        time: 112.8,
+        text: 'Give us faith so we\'ll be safe',
+        sub: ''
+      },
+      // ==================== BRIDGE — Don Italian Solo (1:59.5 ~ 2:18.0) ====================
+      {
+        type: 'solo',
+        section: '브릿지 (Don)',
+        part: 'B',
+        time: 119.5,
+        text: 'Sogniamo un mondo senza più violenza',
+        sub: ''
+      },
+      {
+        type: 'solo',
+        part: 'B',
+        time: 123.0,
+        text: 'Un mondo di giustizia e di speranza',
+        sub: ''
+      },
+      {
+        type: 'solo',
+        part: 'B',
+        time: 126.5,
+        text: 'Ognuno dia la mano al suo vicino',
+        sub: ''
+      },
+      {
+        type: 'solo',
+        part: 'B',
+        time: 131.5,
+        text: 'Simbolo di pace, di fraternità',
+        sub: ''
+      },
+      // ==================== VERSE 4 — Interwoven Duet (2:18.5 ~ 2:52.8) ====================
+      {
+        type: 'split',
+        section: '3절 (스플릿)',
+        time: 138.5,
+        left: {
+          text: 'We ask that life be kind',
+          sub: '(2:22 응답)'
+        },
+        right: {
+          text: 'La forza che ci dà',
+          sub: '(2:18.5 먼저)'
+        }
+      },
+      {
+        type: 'split',
+        time: 145.0,
+        left: {
+          text: 'And watch us from above',
+          sub: '(2:28.5 응답)'
+        },
+        right: {
+          text: 'È il desiderio che',
+          sub: '(2:25 먼저)'
+        }
+      },
+      {
+        type: 'split',
+        time: 151.5,
+        left: {
+          text: 'We hope each soul will find',
+          sub: '(2:35 응답)'
+        },
+        right: {
+          text: 'Ognuno trovi amor',
+          sub: '(2:31.5 먼저)'
+        }
+      },
+      {
+        type: 'split',
+        time: 159.0,
+        left: {
+          text: 'Another soul to love',
+          sub: '(2:43 응답)'
+        },
+        right: {
+          text: 'Intorno e dentro sé',
+          sub: '(2:39 먼저)'
+        }
+      },
+      // ==================== CLIMAX — Key Change Up to Bb Major (2:52.8 ~ 3:32.5) ====================
+      {
+        type: 'split',
+        section: '클라이맥스 (전조)',
+        time: 172.8,
+        left: {
+          text: 'Let this be our prayer',
+          sub: '(2:53 먼저)'
+        },
+        right: {
+          text: 'Let this be our prayer',
+          sub: '(2:59.5 응답)'
+        }
+      },
+      {
+        type: 'split',
+        time: 185.8,
+        left: {
+          text: 'Just like every child',
+          sub: '(3:06 먼저)'
+        },
+        right: {
+          text: 'Just like every child',
+          sub: '(3:12.5 응답)'
+        }
+      },
+      {
+        type: 'solo',
+        part: 'both',
+        time: 199.5,
+        text: 'Need to find a place, guide us with your grace',
+        sub: ''
+      },
+      {
+        type: 'solo',
+        part: 'both',
+        time: 206.0,
+        text: 'Give us faith so we\'ll be safe',
+        sub: ''
+      },
+      // ==================== ORCHESTRAL INTERLUDE (3:32.5 ~ 3:46.8) ====================
       {
         type: 'cue',
-        section: '전주',
-        time: 0,
-        text: '세 번째 듀엣 곡을 추가해 주세요',
-        sub: '상단 [✎ 편집] 버튼에서 바로 수정할 수 있습니다'
+        section: '간주',
+        time: 212.5,
+        text: '간주 (오보에 · 스트링) — 마지막 피날레 준비',
+        sub: '3:47 È la fede che 강하게 진입'
+      },
+      // ==================== FINALE — Italian Together (3:46.8 ~ 4:30) ====================
+      {
+        type: 'solo',
+        section: '피날레',
+        part: 'both',
+        time: 226.8,
+        text: 'È la fede che',
+        sub: ''
+      },
+      {
+        type: 'solo',
+        part: 'both',
+        time: 231.5,
+        text: 'Hai acceso in noi',
+        sub: '3:59 짧은 브레이크(호흡)'
+      },
+      {
+        type: 'solo',
+        part: 'both',
+        time: 239.5,
+        text: 'Sento che ci salverà',
+        sub: '4:06 오케스트라 절정 → 4:13 마무리'
+      },
+      {
+        type: 'cue',
+        section: '후주',
+        time: 254.0,
+        text: '후주 (Outro) — 천천히 마무리',
+        sub: ''
       }
     ]
   }
